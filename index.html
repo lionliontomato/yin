@@ -10,11 +10,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+TC:wght@500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="0.9em" font-size="90">♬⋆</text></svg>'>
+
+  <style>
+    .site-footer{
+      position:relative;
+      z-index:2;
+      max-width:980px;
+      margin:36px auto 24px;
+      padding:22px 18px;
+      text-align:center;
+      font-family:"Noto Serif TC","Noto Sans TC",serif;
+      color:rgba(148,76,112,.9);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .site-footer p{
+      margin:4px 0;
+    }
+
+    .site-footer a{
+      color:rgba(148,76,112,.98);
+      text-decoration:none;
+      border-bottom:1px solid rgba(148,76,112,.35);
+    }
+
+    .site-footer a:hover{
+      opacity:.75;
+    }
+  </style>
 </head>
+
 <body>
   <div class="sky-glow"></div>
   <div class="mist mist-a"></div>
   <div class="mist mist-b"></div>
+
   <div class="floating-icons" aria-hidden="true">
     <span style="--x:8%; --delay:0s; --duration:13s;">☁️</span>
     <span style="--x:18%; --delay:2s; --duration:16s;">♡</span>
@@ -38,10 +69,11 @@
           <span class="mouth">ω</span>
         </span>
       </div>
+
       <div class="seal">小音</div>
       <p class="eyebrow"></p>
       <h1>小音の存鑽存歌</h1>
-      <p class="subtitle">"歡迎來到小音存活專區，可以預約時間私下還存鑽及存活2026年底清空。</p>
+      <p class="subtitle">歡迎來到小音存活專區，可以預約時間私下還存鑽及存活，2026年底清空。</p>
 
       <div class="search-card" role="search">
         <label for="searchInput">懶得找就來查看看</label>
@@ -63,10 +95,11 @@
     </section>
   </main>
 
-  <footer>
-    <span>☁️ 謝謝大家的支持</span>
-    <span>｜</span>
-    <span>我愛粉色，粉色愛我</span>
+  <footer class="site-footer">
+    <p>☁️ 謝謝大家的支持 ｜ 我愛粉色，粉色愛我</p>
+    <p>© 2026 LionLionTomato. All Rights Reserved.</p>
+    <p>本網站「小音の存鑽存歌」之頁面設計、程式架構、資料整理方式與視覺呈現，未經授權不得重製、改作或商業使用。</p>
+    <p><a href="copyright.html">著作權聲明與使用條款</a></p>
   </footer>
 
   <script src="script.js"></script>
