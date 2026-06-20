@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
@@ -39,6 +40,7 @@
       opacity:.75;
     }
   </style>
+
 </head>
 
 <body>
@@ -70,29 +72,32 @@
         </span>
       </div>
 
-      <div class="seal">小音</div>
-      <p class="eyebrow"></p>
-      <h1>小音の存鑽存歌</h1>
-      <p class="subtitle">歡迎來到小音存活專區，可以預約時間私下還存鑽及存活，2026年底清空。</p>
+```
+  <div class="seal">小音</div>
+  <p class="eyebrow"></p>
+  <h1 id="siteTitle">小音の存鑽存歌</h1>
+  <p id="siteSubtitle" class="subtitle">歡迎來到小音存活專區，可以預約時間私下還存鑽及存活，2026年底清空。</p>
 
-      <div class="search-card" role="search">
-        <label for="searchInput">懶得找就來查看看</label>
-        <div class="search-row">
-          <input id="searchInput" type="search" autocomplete="off" placeholder="查詢" />
-          <button id="clearBtn" type="button">顯示全部</button>
-        </div>
-        <p id="resultText" class="result-text">資料載入中…</p>
-      </div>
-    </section>
+  <div class="search-card" role="search">
+    <label for="searchInput">懶得找就來查看看</label>
+    <div class="search-row">
+      <input id="searchInput" type="search" autocomplete="off" placeholder="查詢" />
+      <button id="clearBtn" type="button">顯示全部</button>
+    </div>
+    <p id="resultText" class="result-text">資料載入中…</p>
+  </div>
+</section>
 
-    <section class="panel content-panel" aria-label="存鑽資料查詢結果">
-      <div class="table-wrap">
-        <table>
-          <thead id="tableHead"></thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-    </section>
+<section class="panel content-panel" aria-label="存鑽資料查詢結果">
+  <div class="table-wrap">
+    <table>
+      <thead id="tableHead"></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</section>
+```
+
   </main>
 
   <footer class="site-footer">
@@ -103,5 +108,6 @@
   </footer>
 
   <script src="script.js"></script>
+
 </body>
 </html>
