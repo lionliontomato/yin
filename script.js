@@ -63,6 +63,30 @@ function parseCSV(text) {
   return rows.filter(r => r.some(c => String(c).trim() !== ""));
 }
 
+function applySiteSettings(rows) {
+  const settings = {};
+
+  rows.forEach(row => {
+    const key = String(row[11] ?? "").trim();   // L欄
+    const value = String(row[12] ?? "").trim(); // M欄
+
+    if (key && value) {
+      settings[key] = value;
+    }
+  });
+
+  const title = settings["網站標題"] || "小音の存鑽存歌";
+  const subtitle = settings["網站小標題"] || "歡迎來到小音存活專區，可以預約時間私下還存鑽及存活，2026年底清空。";
+
+  const siteTitle = $("#siteTitle");
+  const siteSubtitle = $("#siteSubtitle");
+
+  if (siteTitle) siteTitle.textContent = title;
+  if (siteSubtitle) siteSubtitle.textContent = subtitle;
+
+  document.title = title;
+}
+
 async function loadSheetData() {
   const response = await fetch(SHEET_CSV_URL, { cache: "no-store" });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -70,6 +94,8 @@ async function loadSheetData() {
   const csvText = await response.text();
   const rows = parseCSV(csvText);
   if (rows.length < 2) throw new Error("試算表沒有可顯示的資料");
+
+  applySiteSettings(rows);
 
   headers = rows[0].slice(0, 6).map(h => String(h || "").trim()).filter(Boolean);
   if (headers.length < 6) {
@@ -103,7 +129,7 @@ function updateResultText(items, keyword) {
   const resultText = $("#resultText");
   if (!resultText) return;
   resultText.textContent = keyword
-    ? 搜尋「${keyword}」：找到 ${items.length} 筆資料。
+    ? `搜尋「${keyword}」：找到 ${items.length} 筆資料。`
     : "";
 }
 
