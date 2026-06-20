@@ -83,8 +83,8 @@ rows.forEach(row => {
 const title = settings["網站標題"];
 const subtitle = settings["網站小標題"];
 
-const siteTitle = $("#siteTitle");
-const siteSubtitle = $("#siteSubtitle");
+const siteTitle = document.getElementById("siteTitle");
+const siteSubtitle = document.getElementById("siteSubtitle");
 
 if (title && siteTitle) {
   siteTitle.textContent = title;
