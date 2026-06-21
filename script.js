@@ -13,21 +13,40 @@ function normalize(text) {
   return String(text ?? "").trim().toLowerCase();
 }
 
+// 數字會加千分位；非數字會保留原文字，例如 ♾️、∞、無上限、VIP
 function toNumber(value) {
   const cleaned = String(value ?? "").replace(/,/g, "").trim();
+
   if (cleaned === "") return 0;
 
   const number = Number(cleaned);
-  return Number.isFinite(number) ? number : 0;
+
+  if (Number.isFinite(number)) {
+    return number;
+  }
+
+  return cleaned;
 }
 
 function escapeHtml(value) {
   return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function formatValue(value, index) {
+  if (textColumnIndexes.has(index)) {
+    return escapeHtml(value);
+  }
+
+  if (typeof value === "number") {
+    return fmt.format(value);
+  }
+
+  return escapeHtml(value);
 }
 
 function parseCSV(text) {
@@ -152,10 +171,7 @@ function renderTable(items) {
   tableBody.innerHTML = items.map(item => `
     <tr>
       ${headers.map((h, index) => {
-        const value = textColumnIndexes.has(index)
-          ? escapeHtml(item[h])
-          : fmt.format(item[h]);
-
+        const value = formatValue(item[h], index);
         return `<td class="${index === 0 ? "name-cell" : ""}">${value}</td>`;
       }).join("")}
     </tr>
