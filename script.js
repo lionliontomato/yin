@@ -169,7 +169,7 @@ function updateResultText(items, keyword) {
 
   resultText.textContent = keyword
     ? `搜尋「${keyword}」：找到 ${items.length} 筆資料。`
-    : `共 ${items.length} 筆資料。`;
+    : "";
 }
 
 function filterRecords() {
