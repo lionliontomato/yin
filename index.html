@@ -1,4 +1,3 @@
-```html
 <!doctype html>
 
 <html lang="zh-Hant">
@@ -7,13 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>小音の存鑽存歌</title>
   <meta name="description" content="小音の存鑽存歌查詢頁，只呈現 Google 試算表 A～F 欄資料。" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+TC:wght@500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css" />
-
   <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="0.9em" font-size="90">♬⋆</text></svg>'>
 
   <style>
@@ -44,6 +40,7 @@
       opacity:.75;
     }
   </style>
+
 </head>
 
 <body>
@@ -63,32 +60,44 @@
 
   <main class="page-shell">
     <section class="hero panel">
-      <div class="seal">小音</div>
-      <p class="eyebrow"></p>
-
-      <h1 id="siteTitle">小音の存鑽存歌</h1>
-      <p id="siteSubtitle" class="subtitle">歡迎來到小音存活專區，可以預約時間私下還存鑽及存活，2026年底清空。</p>
-
-      <div class="search-card" role="search">
-        <label for="searchInput">懶得找就來查看看</label>
-
-        <div class="search-row">
-          <input id="searchInput" type="search" autocomplete="off" placeholder="查詢" />
-          <button id="clearBtn" type="button">顯示全部</button>
-        </div>
-
-        <p id="resultText" class="result-text">資料載入中…</p>
+      <div class="cinnamoroll-buddy" aria-hidden="true">
+        <span class="ear ear-left"></span>
+        <span class="ear ear-right"></span>
+        <span class="face">
+          <span class="eye eye-left"></span>
+          <span class="eye eye-right"></span>
+          <span class="cheek cheek-left"></span>
+          <span class="cheek cheek-right"></span>
+          <span class="mouth">ω</span>
+        </span>
       </div>
-    </section>
 
-    <section class="panel content-panel" aria-label="存鑽資料查詢結果">
-      <div class="table-wrap">
-        <table>
-          <thead id="tableHead"></thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-    </section>
+```
+  <div class="seal">小音</div>
+  <p class="eyebrow"></p>
+  <h1 id="siteTitle">小音の存鑽存歌</h1>
+  <p id="siteSubtitle" class="subtitle">歡迎來到小音存活專區，可以預約時間私下還存鑽及存活，2026年底清空。</p>
+
+  <div class="search-card" role="search">
+    <label for="searchInput">懶得找就來查看看</label>
+    <div class="search-row">
+      <input id="searchInput" type="search" autocomplete="off" placeholder="查詢" />
+      <button id="clearBtn" type="button">顯示全部</button>
+    </div>
+    <p id="resultText" class="result-text">資料載入中…</p>
+  </div>
+</section>
+
+<section class="panel content-panel" aria-label="存鑽資料查詢結果">
+  <div class="table-wrap">
+    <table>
+      <thead id="tableHead"></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</section>
+```
+
   </main>
 
   <footer class="site-footer">
@@ -99,6 +108,6 @@
   </footer>
 
   <script src="script.js?v=20260621a"></script>
+
 </body>
 </html>
-```
