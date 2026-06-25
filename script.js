@@ -1,5 +1,4 @@
 const SHEET_ID = "1ZA-vwLK0Awrsurc0J65X5XDJzsgRFpWO2j8TbkzGJaQ";
-const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
 
 let headers = ["存鑽老闆", "存鑽數量", "存歌數量", "存爆數量", "總數", "備註"];
 let records = [];
@@ -13,19 +12,12 @@ function normalize(text) {
   return String(text ?? "").trim().toLowerCase();
 }
 
-// 數字會加千分位；非數字會保留原文字，例如 ♾️、∞、無上限、VIP
 function toNumber(value) {
   const cleaned = String(value ?? "").replace(/,/g, "").trim();
-
   if (cleaned === "") return 0;
 
   const number = Number(cleaned);
-
-  if (Number.isFinite(number)) {
-    return number;
-  }
-
-  return cleaned;
+  return Number.isFinite(number) ? number : cleaned;
 }
 
 function escapeHtml(value) {
@@ -38,14 +30,8 @@ function escapeHtml(value) {
 }
 
 function formatValue(value, index) {
-  if (textColumnIndexes.has(index)) {
-    return escapeHtml(value);
-  }
-
-  if (typeof value === "number") {
-    return fmt.format(value);
-  }
-
+  if (textColumnIndexes.has(index)) return escapeHtml(value);
+  if (typeof value === "number") return fmt.format(value);
   return escapeHtml(value);
 }
 
@@ -84,40 +70,66 @@ function parseCSV(text) {
   return rows.filter(r => r.some(c => String(c).trim() !== ""));
 }
 
+function normalizeSettingKey(value) {
+  return String(value ?? "")
+    .replace(/[：:]/g, "")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+function addSetting(settings, key, value) {
+  const normalizedKey = normalizeSettingKey(key);
+  const normalizedValue = String(value ?? "").trim();
+
+  if (!normalizedKey || !normalizedValue) return;
+
+  if (normalizedKey.includes("網站標題")) settings["網站標題"] = normalizedValue;
+  if (normalizedKey.includes("網站小標題")) settings["網站小標題"] = normalizedValue;
+}
+
 function applySiteSettings(rows) {
   try {
     const settings = {};
 
     rows.forEach(row => {
-      const key = String(row[11] ?? "").trim();   // L欄
-      const value = String(row[12] ?? "").trim(); // M欄
+      const lKey = String(row[11] ?? "").trim();
+      const mValue = String(row[12] ?? "").trim();
 
-      if (key && value) {
-        settings[key] = value;
-      }
+      addSetting(settings, lKey, mValue);
+
+      row.forEach((cell, index) => {
+        const current = String(cell ?? "").trim();
+        const next = String(row[index + 1] ?? "").trim();
+
+        addSetting(settings, current, next);
+
+        const inlineMatch = current.match(/^(網站標題|網站小標題)\s*[：:]\s*(.+)$/);
+        if (inlineMatch) {
+          addSetting(settings, inlineMatch[1], inlineMatch[2]);
+        }
+      });
     });
 
-    const title = settings["網站標題"];
-    const subtitle = settings["網站小標題"];
+    const title = settings["網站標題"] || "";
+    const subtitle = settings["網站小標題"] || "";
 
     const siteTitle = document.getElementById("siteTitle");
     const siteSubtitle = document.getElementById("siteSubtitle");
 
-    if (title && siteTitle) {
-      siteTitle.textContent = title;
-      document.title = title;
-    }
+    if (siteTitle) siteTitle.textContent = title;
+    if (siteSubtitle) siteSubtitle.textContent = subtitle;
 
-    if (subtitle && siteSubtitle) {
-      siteSubtitle.textContent = subtitle;
-    }
+    document.title = title;
   } catch (error) {
     console.warn("網站標題設定讀取失敗，但不影響表格資料：", error);
   }
 }
 
 async function loadSheetData() {
-  const response = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+  const cacheBust = Date.now();
+  const sheetCsvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&_=${cacheBust}`;
+
+  const response = await fetch(sheetCsvUrl, { cache: "no-store" });
 
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`);
@@ -168,19 +180,24 @@ function renderTable(items) {
     </tr>
   `;
 
-  tableBody.innerHTML = items.map(item => `
-    <tr>
-      ${headers.map((h, index) => {
-        const value = formatValue(item[h], index);
-        return `<td class="${index === 0 ? "name-cell" : ""}">${value}</td>`;
-      }).join("")}
-    </tr>
-  `).join("");
+  tableBody.innerHTML = items.length
+    ? items.map(item => `
+      <tr>
+        ${headers.map((h, index) => {
+          const value = formatValue(item[h], index);
+          return `<td class="${index === 0 ? "name-cell" : ""}">${value}</td>`;
+        }).join("")}
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td colspan="${headers.length}" class="empty-cell">目前沒有符合條件的資料</td>
+      </tr>
+    `;
 }
 
 function updateResultText(items, keyword) {
   const resultText = $("#resultText");
-
   if (!resultText) return;
 
   resultText.textContent = keyword
